@@ -1,0 +1,6 @@
+sdafsdaf<<<<<<< HEAD
+asdfasdfasdfasdfadasdftx
+=======
+adsfadasdftx
+>>>>>>> test
+ad
