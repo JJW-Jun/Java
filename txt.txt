@@ -1,6 +1,5 @@
-11sdafsdaf<<<<<<< HEAD
+11sdafsdaf
+124sdafsdaf
 asdfasdfasdfasdfadasdftx
-=======
 adsfadasdftx
->>>>>>> test
 ad
