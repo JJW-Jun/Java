@@ -1,8 +1,7 @@
 package jpql;
 
 import jpql.item.Address;
-import jpql.item.Category;
-import jpql.item.MemberType;
+import jpql.item.AddressEntity;
 import lombok.Data;
 
 import javax.persistence.EntityManager;
@@ -10,50 +9,41 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class JpaMain {
     public static void main(String args[]) {
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpql");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
         try {
-            Company companyA = new Company();
-            companyA.setName("companyA");
-            em.persist(companyA);
-
-            Team teamA = new Team();
-            teamA.setName("teamA");
-            em.persist(teamA);
-
             Member memberA = new Member();
             memberA.setMembername("memberA");
-            memberA.setAge(new Age(21));
-            memberA.setTeam(teamA);
-            memberA.setCompany(companyA);
-            memberA.setType(MemberType.USER);
 
+            // Address
+            memberA.setHomeAddress(new Address("Busan", "streetB", "051"));
 
-            memberA.setAddress(new Address("Busan", "Namcheon", "103"));
-
+            // History
+            memberA.getAddressHistory().add(new AddressEntity("Seoul", "streetA", "02"));
+            memberA.getAddressHistory().add(new AddressEntity("Wonju", "streetC", "031"));
             em.persist(memberA);
+
 
             em.flush();
             em.clear();
 
+
+
+            System.out.println("====================");
             Member findMember = em.find(Member.class, 1L);
-            List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+//            findMember.getAddressHistory().remove(new AddressEntity("Seoul", "streetA", "02"));
+//            findMember.getAddressHistory().add(new AddressEntity("newCity", "streetZ", "051"));
+            System.out.println("====================");
 
 
-            System.out.println("====================");
-            long manLiveInBusan20s = members.stream()
-                                            .filter(Address::isBusan)
-                                            .filter(Age::is20s)
-                                            .map(MemberDto::new)
-                                            .count();
-            System.out.println("====================");
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -62,16 +52,17 @@ public class JpaMain {
         }
         emf.close();
     }
-
-    @Data
-    static class MemberDto {
-        private Age age;
-        private Address address;
-
-        public MemberDto(Member member) {
-            this.age = member.getAge();
-            this.address = member.getAddress();
-        }
-
-    }
 }
+
+
+//    @Data
+//    static class MemberDto {
+//        private Age age;
+//        private Address address;
+//
+//        public MemberDto(Member member) {
+//            this.age = member.getAge();
+//            this.address = member.getAddress();
+//        }
+//
+//    }

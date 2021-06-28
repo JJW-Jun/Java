@@ -1,17 +1,14 @@
 package jpql;
 
 import jpql.item.Address;
-import jpql.item.Category;
-import jpql.item.MemberType;
+import jpql.item.AddressEntity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
-@Entity
-@Data
+@Entity @Data
 public class Member {
 
     @Id
@@ -19,40 +16,29 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long id;
 
-
-    @Embedded
-    private Age age;
-
-    @Embedded
-    private Category category;
-
     @Column(name = "MEMBER_NAME")
     private String membername;
 
-
     @Embedded
-    private Address address;
+    private Address homeAddress;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private MemberType type;
+    protected Member() {
+    }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMPANY_ID")
-    private Company company;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(getId(), member.getId()) && Objects.equals(getMembername(), member.getMembername()) && Objects.equals(getHomeAddress(), member.getHomeAddress()) && Objects.equals(getAddressHistory(), member.getAddressHistory());
+    }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FAMILY_ID")
-    private Family family;
-
-    @OneToMany(mappedBy = "member")
-    private List<Child> children = new ArrayList<>();
-
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getMembername(), getHomeAddress(), getAddressHistory());
     }
 }

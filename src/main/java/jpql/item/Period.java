@@ -1,7 +1,6 @@
 package jpql.item;
 
 import lombok.Data;
-import lombok.Getter;
 
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
@@ -16,4 +15,8 @@ public class Period {
     protected Period() {
     }
 
+    public Period(LocalDateTime startDate, LocalDateTime endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }
