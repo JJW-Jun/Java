@@ -12,7 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
-@Setter @Getter
+@Setter
+@Getter
 public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

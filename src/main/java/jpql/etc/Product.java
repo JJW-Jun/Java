@@ -1,5 +1,6 @@
-package jpql.item;
+package jpql.etc;
 
+import jpql.item.Address;
 import lombok.Data;
 
 import javax.persistence.*;

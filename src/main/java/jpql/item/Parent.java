@@ -20,10 +20,15 @@ public class Parent {
     private List<Child> children = new ArrayList<>();
 
     public void addChild(Child child){
+        /**
+         *
+         *  원래 자식이 이미 존재하는지 유무를 체크하는 등의
+         *  추가적인 조치가 있어야 한다.
+         *
+         * */
         children.add(child);
         child.setParent(this);
 
     }
-
 
 }

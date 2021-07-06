@@ -1,13 +1,10 @@
 package jpql.item;
 
-import lombok.Data;
-
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@Data
 public abstract class BaseEntity {
 
     private String createdBy;
@@ -16,3 +13,10 @@ public abstract class BaseEntity {
     private LocalDateTime lastModifiedDate;
 
 }
+
+
+
+
+
+
+

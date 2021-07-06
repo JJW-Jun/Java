@@ -1,4 +1,4 @@
-package jpql;
+package jpql.etc;
 
 import lombok.Getter;
 import lombok.Setter;
