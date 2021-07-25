@@ -1,9 +1,11 @@
 package jpql;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import jpql.item.Address;
+import jpql.test.Category;
+import jpql.test.CategoryStore;
+import jpql.test.Store;
+
+import javax.persistence.*;
 import java.util.List;
 
 public class JpaMain {
@@ -15,69 +17,31 @@ public class JpaMain {
     tx.begin();
 
     try {
-      Team teamA = new Team();
-      teamA.setName("teamA");
-      em.persist(teamA);
+      //      Team team = new Team();
+      //      team.setName("teamA");
+      //
+      //      em.persist(team);
+      //      Member memberA = new Member();
+      //      memberA.setMemberName("memberA");
+      //      memberA.setTeam(team);
+      //      em.persist(memberA);
+      //
+      //      em.flush();
+      //      em.clear();
+      Member findMember = em.find(Member.class, 1L);
+      System.out.println(findMember.toString());
 
-      Team teamB = new Team();
-      teamB.setName("teamB");
-      em.persist(teamB);
+      //      em.createQuery("select m from Team t inner join t.members m", Member.class)
+      //          .getResultList()
+      //          .forEach(System.out::println);
+      //      em.createQuery("select t.members from Team t ", Member.class)
+      //              .getResultList()
+      //      .forEach(System.out::println);
 
-      Team teamC = new Team();
-      teamC.setName("teamC");
-      em.persist(teamC);
-
-      Team teamD = new Team();
-      teamD.setName("teamD");
-      em.persist(teamD);
-
-      Team teamE = new Team();
-      teamE.setName("teamE");
-      em.persist(teamE);
-
-      Member memberA = new Member();
-      memberA.setMembername("memberA");
-      memberA.setTeam(teamA);
-      em.persist(memberA);
-
-      Member memberB = new Member();
-      memberB.setMembername("memberB");
-      memberB.setTeam(teamB);
-      em.persist(memberB);
-
-      Member memberC = new Member();
-      memberC.setMembername("memberC");
-      memberC.setTeam(teamC);
-      em.persist(memberC);
-
-      Member memberD = new Member();
-      memberD.setMembername("memberD");
-      memberD.setTeam(teamD);
-      em.persist(memberD);
-
-      Member memberE = new Member();
-      memberE.setMembername("memberE");
-      memberE.setTeam(teamE);
-      em.persist(memberE);
-
-      em.flush();
-      em.clear();
-
-      String fetchJoin = "select t From Team t";
-      List<Team> result =
-          em.createQuery(fetchJoin, Team.class)
-                  .setFirstResult(0)
-                  .setMaxResults(5)
-                  .getResultList();
-
-      System.out.println("====================");
-      for (Team team : result) {
-        System.out.println("팀= " + team.getName() + ", 회원수=" + team.getMembers().size());
-        for (Member member : team.getMembers()) {
-          System.out.println("->member= " + member);
-        }
-      }
-      System.out.println("====================");
+      //      System.out.println("===============================================================");
+      //      Team findTeam = em.find(Team.class, 1L);
+      //      List<Member> results = findTeam.getMembers();
+      //      results.forEach(System.out::println);
 
       tx.commit();
     } catch (Exception e) {
