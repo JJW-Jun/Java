@@ -9,31 +9,8 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
+@Data
 public class Member {
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getMemberName() {
-    return memberName;
-  }
-
-  public void setMemberName(String memberName) {
-    this.memberName = memberName;
-  }
-
-  public Team getTeam() {
-    return team;
-  }
-
-  public void setTeam(Team team) {
-    this.team = team;
-  }
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "MEMBER_ID")
@@ -42,14 +19,19 @@ public class Member {
   @Column(name = "MEMBER_NAME")
   private String memberName;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   @JoinColumn(name = "TEAM_ID")
   private Team team;
 
-  protected Member() {}
-
-  @Override
-  public String toString() {
-    return "Member{" + "id=" + id + ", memberName='" + memberName + '\'' + ", team=" + team + '}';
+  public void setTeam(Team team) {
+    if(this.team != null){
+      this.team.getMembers().remove(this);
+    }
+    this.team = team;
+    if(team != null){
+      team.getMembers().add(this);
+    }
   }
+
+  protected Member() {}
 }
